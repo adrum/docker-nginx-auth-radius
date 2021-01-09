@@ -1,0 +1,31 @@
+server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        #radius server configuration
+
+        #the third parameter is authentication method,you can set the following value:
+        # PAP CHAP MSCHAP MSCHAP2 EAPMD5
+
+        auth_radius_server "radius_server1" "${RADIUS_SERVER_AUTH_METHOD}";
+
+        #authentication realm,you can set the following value:
+        # Restricted "Close Content" off
+        auth_radius "Restricted";
+
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
